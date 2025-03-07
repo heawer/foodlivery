@@ -1,0 +1,64 @@
+<nav class="navbar navbar-expand-lg bg-info">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">Foodlivery</a>
+
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarText"
+      aria-controls="navbarText"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarText">
+      <!-- Navigation Links -->
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'home' %}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'all_categories' %}">All Categories</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'all_food' %}">All Food</a>
+        </li>
+          {% if user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'my_listings' %}">My Listings</a>
+        </li>
+        {% endif %}
+      </ul>
+
+      <!-- User Authentication Section -->
+      {% if user.is_authenticated %}
+      <div class="d-flex flex-row justify-content-end gap-2">
+        <span class="navbar-text"> {{ user.get_username }}</span>
+        
+        <form id="logout-form" method="post" action="{% url 'logout' %}">
+          {% csrf_token %}
+
+          <button type="submit" class="btn btn-danger">
+            <i class="fa-solid fa-right-from-bracket"></i> Logout
+          </button>
+        </form>
+      </div>
+      {% else %}
+        {# Check if the current page is NOT the login or register page #}
+        {% if request.path != '/accounts/login/' and request.path != '/accounts/register/' %}
+        <div class="d-flex flex-row justify-content-end gap-2">
+          <a href="{% url 'login' %}" class="btn btn-primary">
+            <i class="fa-solid fa-right-to-bracket"></i> Login
+          </a>
+          <a href="{% url 'register' %}" class="btn btn-success">
+            <i class="fa-solid fa-user-plus"></i> Register
+          </a>
+        </div>
+        {% endif %}
+      {% endif %}
+    </div>
+  </div>
+</nav>

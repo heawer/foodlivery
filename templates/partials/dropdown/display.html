@@ -1,0 +1,55 @@
+<div class="d-flex flex-row text-center gap-1">
+  <div class="dropdown">
+    <button
+      class="
+      btn
+      {% if label == 'Status' %}
+        {% if selected == 'In progress' %}
+            btn-outline-warning
+        {% elif selected == 'Completed' %}
+            btn-outline-success
+        {% else %}
+            btn-outline-info
+        {% endif %}
+      {% elif label == 'Priority' %}
+        {% if selected == 'Medium' %}
+            btn-outline-warning
+        {% elif selected == 'High' %}
+            btn-outline-danger
+        {% else %}
+            btn-outline-info
+        {% endif %}
+       {% else %}
+            btn-outline-info
+      {% endif %}
+
+      {% if size == 'sm' %}
+        btn-sm
+      {% endif %}
+
+      dropdown-toggle"
+      type="button"
+      data-bs-toggle="dropdown"
+      aria-expanded="false"
+    >
+      {{ selected }}
+    </button>
+
+    <ul class="dropdown-menu">
+      <h3 class="dropdown-header">{{ label }}</h3>
+      
+      {% for value, display in choices %} 
+        {% if display != selected %}
+        <li>
+          <a
+            class="dropdown-item"
+            href="{% url change_url task.id value %}"
+          >
+            {{ display }}
+          </a>
+        </li>
+        {% endif %} 
+      {% endfor %}
+    </ul>
+  </div>
+</div>

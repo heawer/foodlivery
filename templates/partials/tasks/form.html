@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load form_tags %}
+
+{% block content %}
+    <div class="container mt-1">
+        {% block formtitle %}
+        {% endblock %}
+
+        {% if form.errors %}
+            {% for field, errors in form.errors.items %}
+                {% for error in errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ field }}: {{ error }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        {% endif %}
+
+        <form method="post">
+            {% csrf_token %}
+
+            {% for field in form %}
+                <div class="mb-3">
+                    <label for="id_{{ field.label }}" class="form-label">{{ field.label }}</label>
+                    {{ field }}
+
+                    {% if field.help_text %}
+                        <small style="color: grey">{{ field.help_text }}</small>
+                    {% endif %}
+                </div>
+            {% endfor %}
+
+            <button type="submit" class="btn btn-primary">
+                {% block formbutton %}
+                {% endblock %}
+            </button>
+        </form>
+    </div>
+{% endblock %}
